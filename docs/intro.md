@@ -9,14 +9,13 @@ toc: false
 <!-- Load and transform the data -->
 
 ```js
-const launches = FileAttachment("data/launches.csv").csv({typed: true});
 const databaseFile = await fetch("https://joblist.gitlab.io/workers/joblist.db");
 const db = await SQLiteDatabaseClient.open(databaseFile);
-const companies = await db.query(`SELECT * FROM companies`)
-const jobs = await db.query(`SELECT * FROM jobs`)
+const companies = await db.query(`SELECT * FROM companies`);
+const jobs = await db.query(`SELECT * FROM jobs`);
+const totalCompanies = await db.query(`SELECT total_companies FROM companies_analyze`);
 console.log("companies pass", companies);
 ```
-
 
 <!-- Cards with big numbers -->
 
