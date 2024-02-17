@@ -2,13 +2,19 @@
 toc: false
 ---
 
-# Dashboards for Joblist
+# [Dashboards](http://dashboards.joblist.today) for Joblist
 
-- [Dashboards](http://dashboards.joblist.today)
-- [Joblist](http://joblist.today)
-- [observablehq@joblist](https://observablehq.com/@joblist) for the
-  version 1 of observablehq
-  
 This project is using
-[https://github.com/observablehq/framework](observablehq/framework) to
+[observablehq/framework](https://github.com/observablehq/framework) to
 help visualize the data available in the joblist ecosystem.
+
+# About joblist
+
+- [joblist.today](http://joblist.today) for the homepage of this project
+- [edit.joblist.today](http://edit.joblist.today) to edit the data, add a company
+- [providers.joblist.today](http://providers.joblist.today) for the
+  "job board providers" list, that joblist.today can index
+
+> See [observablehq@joblist](https://observablehq.com/@joblist) for
+> the version 1 of observablehq dashboards, and introduction to
+> joblist's data.
