@@ -26,8 +26,10 @@ console.log("jobsSerialize", jobsSerialize);
 console.log("jobsOvertime pass", jobsOvertime[0]);
 ```
 
-# Joblist Data 🚀
+# Jobs over time
 
 ```js
 resize((width) => timelineJobs(jobsSerialize, {width, height: 400}))
 ```
+
+> The number of jobs posted by days, in the latest version of the database.
