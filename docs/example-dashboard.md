@@ -1,47 +1,33 @@
 ---
 theme: dashboard
-title: Example dashboard
+title: Joblist Intro
 toc: false
 ---
 
-# Rocket launches 🚀
+# Joblist Data 🚀
 
 <!-- Load and transform the data -->
 
 ```js
 const launches = FileAttachment("data/launches.csv").csv({typed: true});
+const databaseFile = await fetch("https://joblist.gitlab.io/workers/joblist.db");
+const db = await SQLiteDatabaseClient.open(databaseFile);
+const companies = await db.query(`SELECT * FROM companies`)
+const jobs = await db.query(`SELECT * FROM jobs`)
+console.log("companies pass", companies);
 ```
 
-<!-- A shared color scale for consistency, sorted by the number of launches -->
-
-```js
-const color = Plot.scale({
-  color: {
-    type: "categorical",
-    domain: d3.groupSort(launches, (D) => -D.length, (d) => d.state).filter((d) => d !== "Other"),
-    unknown: "var(--theme-foreground-muted)"
-  }
-});
-```
 
 <!-- Cards with big numbers -->
 
 <div class="grid grid-cols-4">
   <div class="card">
-    <h2>United States 🇺🇸</h2>
-    <span class="big">${launches.filter((d) => d.stateId === "US").length.toLocaleString("en-US")}</span>
+    <h2>Companies</h2>
+    <span class="big">${companies.length.toLocaleString("en-US")}</span>
   </div>
   <div class="card">
-    <h2>Russia 🇷🇺 <span class="muted">/ Soviet Union</span></h2>
-    <span class="big">${launches.filter((d) => d.stateId === "SU" || d.stateId === "RU").length.toLocaleString("en-US")}</span>
-  </div>
-  <div class="card">
-    <h2>China 🇨🇳</h2>
-    <span class="big">${launches.filter((d) => d.stateId === "CN").length.toLocaleString("en-US")}</span>
-  </div>
-  <div class="card">
-    <h2>Other</h2>
-    <span class="big">${launches.filter((d) => d.stateId !== "US" && d.stateId !== "SU" && d.stateId !== "RU" && d.stateId !== "CN").length.toLocaleString("en-US")}</span>
+    <h2>Jobs</h2>
+    <span class="big">${jobs.length.toLocaleString("en-US")}</span>
   </div>
 </div>
 
@@ -54,7 +40,7 @@ function launchTimeline(data, {width} = {}) {
     width,
     height: 300,
     y: {grid: true, label: "Launches"},
-    color: {...color, legend: true},
+    color: {, legend: true},
     marks: [
       Plot.rectY(data, Plot.binX({y: "count"}, {x: "date", fill: "state", interval: "year", tip: true})),
       Plot.ruleY([0])
