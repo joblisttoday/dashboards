@@ -16,7 +16,10 @@ export default {
 		},
 		{
 			name: "Explorations",
-			pages: [{ name: "Jobs over time", path: "/job-over-time" }],
+			pages: [
+				{ name: "Jobs over time", path: "/job-over-time" },
+				{ name: "Jobs over time filtered", path: "/job-over-time-filtered" },
+			],
 		},
 	],
 

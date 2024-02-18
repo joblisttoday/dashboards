@@ -1,4 +1,4 @@
-// Simple plot graph of jobs published over time
+// Plot graph of jobs published over time filtered by company name
 
 import * as Plot from "npm:@observablehq/plot";
 
@@ -21,6 +21,7 @@ export function timelineJobs(jobsOvertime, size) {
         marks: [
             Plot.ruleX(
                 jobsOvertime,
+                // jobsOvertime.filter(job => job.company_name === companyName),
                 {
                     x: "published_date",
                     y: "nb_job_published",
