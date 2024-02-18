@@ -5,8 +5,8 @@ toc: false
 # [Dashboards](http://dashboards.joblist.today) for Joblist
 
 This project is using
-[observablehq/framework](https://github.com/observablehq/framework) to
-help visualize the data available in the joblist ecosystem.
+[observablehq/framework](https://github.com/observablehq/framework) ([docs](https://observablehq.com/framework/))to
+help visualize the data available in the joblist ecosystem .
 
 # About joblist
 
