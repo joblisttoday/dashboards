@@ -18,11 +18,12 @@ Jobs by companies by date.
 ```js
 const query = `
 SELECT
- published_date,
- company_slug,
- COUNT(DISTINCT objectID) AS total_jobs
+  published_date,
+  company_slug,
+  COUNT(DISTINCT objectID) AS total_jobs
 FROM jobs
-WHERE published_date IS NOT NULL
+WHERE published_date > DATE('now', '-1 month')
+  AND published_date IS NOT NULL
 GROUP BY published_date, company_slug;
 `;
 const companiesJobs = await db.query(query);
@@ -37,22 +38,19 @@ const searchCompaniesJobs = view(Inputs.search(companiesJobs))
 Inputs.table(searchCompaniesJobs)
 ```
 
-## Display chart filtered
+```js
+const start = view(Inputs.date({label: "Start", value: "2021-09-21"}));
+```
+
+## Display stack bar chart filtered
 
 ```js
 Plot.plot({
-  grid: true,
-  x: {type: "log"},
+  color: {legend: true},
+  y: {grid: true},
   marks: [
-    Plot.dot(searchCompaniesJobs, {
-      x: "published_date",
-      y: "total_jobs"
-    }),
-    Plot.text(searchCompaniesJobs, {
-      x: "published_date",
-      y: "total_jobs",
-      text: "yolo",
-    })
+    Plot.rectY(searchCompaniesJobs, {x: "published_date", y: "total_jobs",fill: "company_slug"}),
+    Plot.ruleY([0])
   ]
 })
 ```
