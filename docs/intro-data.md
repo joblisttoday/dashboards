@@ -17,11 +17,19 @@ There are two main tables in the sqlite3 database `companies` and
 `jobs` that have the following content.
 
 # Companies
+
 ```js
-const tableCompanies = view(Inputs.table(companies))
+const searchCompanies = view(Inputs.search(companies))
+```
+
+```js
+const tableCompanies = view(Inputs.table(searchCompanies))
 ```
 
 # Jobs
 ```js
-const tableJobs = view(Inputs.table(jobs))
+const searchJobs = view(Inputs.search(jobs))
+```
+```js
+const tableJobs = view(Inputs.table(searchJobs))
 ```
