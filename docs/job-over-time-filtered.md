@@ -23,6 +23,9 @@ WHERE published_date > DATE('now', '-1 month')
   AND published_date IS NOT NULL;
 `
 const distCompanies = await db.query(distCompaniesQuery);
+const distCompaniesSlugs = distCompanies.map((item) => {
+		return item.company_slug
+})
 ```
 
 Jobs by companies by date.
@@ -44,7 +47,8 @@ view(companiesJobs)
 
 ```js
 const searchOption = {
-  datalist: distCompanies
+  datalist: distCompaniesSlugs
+
 }
 const searchCompaniesJobs = view(Inputs.search(companiesJobs, searchOption))
 ```
