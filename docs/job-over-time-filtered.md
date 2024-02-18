@@ -14,7 +14,19 @@ Trying to filter the jobs by companies, and display it over time.
 const db = await SQLiteDatabaseClient.open("https://joblist.gitlab.io/workers/joblist.db");
 ```
 
+```js
+const distCompaniesQuery = `
+SELECT DISTINCT
+  company_slug
+FROM jobs
+WHERE published_date > DATE('now', '-1 month')
+  AND published_date IS NOT NULL;
+`
+const distCompanies = await db.query(distCompaniesQuery);
+```
+
 Jobs by companies by date.
+
 ```js
 const query = `
 SELECT
@@ -31,15 +43,27 @@ view(companiesJobs)
 ```
 
 ```js
-const searchCompaniesJobs = view(Inputs.search(companiesJobs))
+const searchOption = {
+  datalist: distCompanies
+}
+const searchCompaniesJobs = view(Inputs.search(companiesJobs, searchOption))
 ```
 
 ```js
-Inputs.table(searchCompaniesJobs)
+const startDate = new Date(Date.now() - (30 * 24 * 60 * 60 * 1000)).toISOString().split('T')[0]
+const start = view(Inputs.date({label: "From start date", value: startDate}));
 ```
 
 ```js
-const start = view(Inputs.date({label: "Start", value: "2021-09-21"}));
+const startDate = new Date(start)
+
+const filterByDate = function(item) {
+  console.log(new Date(item.published_date) > startDate)
+  return new Date(item.published_date) > startDate
+}
+
+const dateCompaniesJobs = searchCompaniesJobs.filter(filterByDate)
+display(dateCompaniesJobs)
 ```
 
 ## Display stack bar chart filtered
@@ -49,8 +73,14 @@ Plot.plot({
   color: {legend: true},
   y: {grid: true},
   marks: [
-    Plot.rectY(searchCompaniesJobs, {x: "published_date", y: "total_jobs",fill: "company_slug"}),
+    Plot.rectY(dateCompaniesJobs, {x: "published_date", y: "total_jobs",fill: "company_slug"}),
     Plot.ruleY([0])
   ]
 })
+```
+
+## Raw data
+
+```js
+Inputs.table(dateCompaniesJobs)
 ```
