@@ -34,7 +34,8 @@ const companyJobsPerDay = await db.query(companyJobsPerDayQuery, [days, slug]);
 view(companyJobsPerDay)
 ```
 
-Evolution of daily job postings for [${slug}](https://profiles.joblist.today/companies/${slug}).
+Evolution of daily job postings for **
+${slug}**.
 
 ## Heatmap
 

@@ -1,5 +1,5 @@
 ```js
-import tableCompanies from "./table-companies.js"
+import tableJobs from "./table-jobs.js"
 ```
 
 ```js
@@ -12,5 +12,5 @@ const jobs = await db.query(`SELECT * FROM jobs;`);
 const searchJobs = view(Inputs.search(jobs));
 ```
 ```js
-tableCompanies(searchJobs)
+tableJobs(searchJobs)
 ```
