@@ -36,8 +36,9 @@ view(jobsPerDay)
 ```
 
 ```js
-const oneYearAgo = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
-const inputDateFrom = view(Inputs.date({label: "from", value: oneYearAgo }));
+const sinceDate = new Date();
+sinceDate.setFullYear(sinceDate.getFullYear() - 1);
+const inputDateFrom = view(Inputs.date({label: "from", value: sinceDate }));
 const inputDateTo = view(Inputs.date({label: "to", value: Date.now()}));
 ```
 

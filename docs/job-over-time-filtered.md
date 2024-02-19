@@ -54,15 +54,18 @@ const searchCompaniesJobs = view(Inputs.search(companiesJobs, searchOption))
 ```
 
 ```js
-const startDate = new Date(Date.now() - (30 * 24 * 60 * 60 * 1000)).toISOString().split('T')[0]
-const start = view(Inputs.date({label: "From start date", value: startDate}));
+const sinceDate = new Date();
+sinceDate.setMonth(sinceDate.getMonth() - 1);
+const inputDateFrom = view(Inputs.date({label: "from", value: sinceDate }));
+const inputDateTo = view(Inputs.date({label: "to", value: Date.now()}));
 ```
 
 ```js
-const startDate = new Date(start)
-
+const dateFrom = new Date(inputDateFrom)
+const dateTo = new Date(inputDateTo)
 const filterByDate = function(item) {
-  return new Date(item.published_date) > startDate
+    const itemDate = new Date(item.published_date)
+    return  itemDate > dateFrom && itemDate < dateTo
 }
 
 const dateCompaniesJobs = searchCompaniesJobs.filter(filterByDate)
@@ -88,5 +91,9 @@ resize((width) =>Plot.plot({
 ## Raw data
 
 ```js
-Inputs.table(dateCompaniesJobs)
+Inputs.table(dateCompaniesJobs, {
+    format: {
+        company_slug: (x) => html`<a href="https://profiles.joblist.today/companies/${x}">${x}</a>`
+    }
+})
 ```
