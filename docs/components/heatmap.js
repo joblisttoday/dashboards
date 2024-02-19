@@ -1,30 +1,26 @@
 import * as Plot from "npm:@observablehq/plot";
+import { resize } from "npm:@observablehq/stdlib";
 
-const buildEmptyDates = (data) => {
-	const first = data[0];
-	const last = data[data.length - 1];
-	console.log("first", first, last);
-};
-
-export default function heatmap(data = [], size = {}) {
-	const dataWithEmptyDates = buildEmptyDates(data);
-	const { width = 400, height = 300 } = size;
-	return Plot.plot({
-		width,
-		height,
-		marks: [
-			Plot.cell(
-				data,
-				Plot.group(
-					{ fill: "max" },
-					{
-						x: (d) => `${d.year} - ${d.month}`,
-						y: (d) => d.day,
-						fill: "total",
-						inset: 0.5,
-					},
+export default function heatmap(data = [], config = {}) {
+	const { height = 400 } = config;
+	return resize((width) => {
+		return Plot.plot({
+			width,
+			height,
+			marks: [
+				Plot.cell(
+					data,
+					Plot.group(
+						{ fill: "max" },
+						{
+							x: (d) => `${d.year} - ${d.month}`,
+							y: (d) => d.day,
+							fill: "total",
+							inset: 0.5,
+						},
+					),
 				),
-			),
-		],
+			],
+		});
 	});
 }

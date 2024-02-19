@@ -55,14 +55,12 @@ display(dateCompaniesJobs)
 ```
 
 ## Timeline
-
 ```js
-resize((width) => timeline(dateCompaniesJobs, {width}))
+timeline(dateCompaniesJobs)
 ```
 > The number of jobs posted by days, in the latest version of the database.
 
 ## Heatmap
-
 ```js
-resize((width) => heatmap(dateCompaniesJobs, {width}))
+heatmap(dateCompaniesJobs)
 ```
