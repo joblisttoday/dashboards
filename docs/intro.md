@@ -13,6 +13,7 @@ const companies = await db.query(`SELECT * FROM companies;`);
 const jobs = await db.query(`SELECT * FROM jobs;`);
 const totalCompanies = await db.query(`SELECT total_companies FROM companies_analyze`);
 const companiesWithJobs = await db.query("SELECT DISTINCT company_slug FROM jobs;")
+const jobPublishedThisWeek = await db.query("SELECT * FROM jobs WHERE published_date >= DATE('now', '-7 days');")
 ```
 
 General statistics about the database of companies and jobs.
@@ -23,15 +24,42 @@ General statistics about the database of companies and jobs.
     <span class="big">${companies.length.toLocaleString("en-US")}</span>
   </div>
   <div class="card">
+    <h2>Companies with Jobs</h2>
+    <span class="big">${companiesWithJobs.length.toLocaleString("en-US")}</span>
+  </div>
+    <div class="card">
     <h2>Jobs</h2>
     <span class="big">${jobs.length.toLocaleString("en-US")}</span>
   </div>
   <div class="card">
-    <h2>Companies with Jobs</h2>
-    <span class="big">${companiesWithJobs.length.toLocaleString("en-US")}</span>
+    <h2>Jobs published the last 7 days</h2>
+    <span class="big">${jobPublishedThisWeek.length.toLocaleString("en-US")}</span>
   </div>
 </div>
 
-## Notebook
 
-This webpage aims to help visualize the data from the joblist project. It should also allow to explore the raw data, using the page as "code notebooks" (javascript/json data and sqlite3 queries).
+```js
+const companyWithTopJobsQuery = `
+SELECT
+    companies.slug,
+    COUNT(jobs.objectID) AS total_jobs
+FROM
+    companies
+INNER JOIN
+    jobs ON companies.slug = jobs.company_slug
+GROUP BY
+    companies.slug
+ORDER BY
+    total_jobs DESC
+LIMIT 10;
+`
+const companyWithTop = await db.query(companyWithTopJobsQuery)
+```
+The companies with the highest number of jobs published are:
+```js
+view(Inputs.table(companyWithTop, {
+    format: {
+        slug: (x) => html`<a href="https://profiles.joblist.today/companies/${x}">${x}</a>`
+    }
+}))
+```

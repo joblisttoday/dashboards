@@ -5,11 +5,12 @@ toc: false
 # [Dashboards](http://dashboards.joblist.today) for Joblist
 
 This project is using
-[observablehq/framework](https://github.com/observablehq/framework) ([docs](https://observablehq.com/framework/))to
-help visualize the data available in the joblist ecosystem .
+[observablehq/framework](https://github.com/observablehq/framework) ([docs](https://observablehq.com/framework/)) to
+help visualize the data available in the joblist ecosystem.
 
 # About joblist
 
+- [source code](https://gitlab.com/joblist/dashboards) of the observable 2 dashboards
 - [joblist.today](http://joblist.today) for the homepage of this project
 - [edit.joblist.today](http://edit.joblist.today) to edit the data, add a company
 - [providers.joblist.today](http://providers.joblist.today) for the
@@ -25,3 +26,12 @@ help visualize the data available in the joblist ecosystem .
 > See [observablehq@joblist](https://observablehq.com/@joblist) for
 > the version 1 of observablehq dashboards, and introduction to
 > joblist's data.
+
+
+```js
+const db = await SQLiteDatabaseClient.open("https://joblist.gitlab.io/workers/joblist.db");
+const dbDate = await db.query(`select DATE('now') AS date;`)
+const {date} = dbDate[0]
+```
+
+[Sqlite database date](https://joblist.gitlab.io/workers/joblist.db) ([explore raw](https://sqlime.org/#https://joblist.gitlab.io/workers/joblist.db)) ${date}.

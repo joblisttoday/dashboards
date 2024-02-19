@@ -23,7 +23,17 @@ const searchCompanies = view(Inputs.search(companies))
 ```
 
 ```js
-const tableCompanies = view(Inputs.table(searchCompanies))
+view(Inputs.table(searchCompanies, {
+    format: {
+        slug: (x) => html`<a href="https://profiles.joblist.today/companies/${x}">${x}</a>`,
+		job_board_url: (x) => html`<a href="${x}">${x}</a>`,
+		company_url: (x) => html`<a href="${x}">${x}</a>`,
+		twitter_url: (x) => html`<a href="${x}">${x}</a>`,
+		wikipedia_url: (x) => html`<a href="${x}">${x}</a>`,
+		github_url: (x) => html`<a href="${x}">${x}</a>`,
+		linkedin_url: (x) => html`<a href="${x}">${x}</a>`,
+    }
+}))
 ```
 
 # Jobs
@@ -31,5 +41,10 @@ const tableCompanies = view(Inputs.table(searchCompanies))
 const searchJobs = view(Inputs.search(jobs))
 ```
 ```js
-const tableJobs = view(Inputs.table(searchJobs))
+view(Inputs.table(searchJobs, {
+    format: {
+        company_slug: (x) => html`<a href="https://profiles.joblist.today/companies/${x}">${x}</a>`,
+        url: (x) => html`<a href="${x}">${x}</a>`,
+    }
+}))
 ```

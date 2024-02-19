@@ -21,6 +21,13 @@ export default {
 				{ name: "Jobs over time filtered", path: "/job-over-time-filtered" },
 			],
 		},
+		{
+			name: "Components",
+			pages: [
+				{ name: "Timeline", path: "/components/timeline" },
+				{ name: "Heatmap", path: "/components/heatmap" },
+			],
+		},
 	],
 
 	// Some additional configuration options and their defaults:

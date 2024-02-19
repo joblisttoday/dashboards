@@ -62,7 +62,6 @@ const start = view(Inputs.date({label: "From start date", value: startDate}));
 const startDate = new Date(start)
 
 const filterByDate = function(item) {
-  console.log(new Date(item.published_date) > startDate)
   return new Date(item.published_date) > startDate
 }
 
@@ -70,18 +69,21 @@ const dateCompaniesJobs = searchCompaniesJobs.filter(filterByDate)
 display(dateCompaniesJobs)
 ```
 
-## Display stack bar chart filtered
+## Stack bar by companies
 
 ```js
-Plot.plot({
-  color: {legend: true},
-  y: {grid: true},
-  marks: [
-    Plot.rectY(dateCompaniesJobs, {x: "published_date", y: "total_jobs",fill: "company_slug"}),
-    Plot.ruleY([0])
-  ]
-})
+resize((width) =>Plot.plot({
+    width,
+    color: {legend: true},
+    y: {grid: true},
+    marks: [
+        Plot.rectY(dateCompaniesJobs, {x: "published_date", y: "total_jobs",fill: "company_slug"}),
+        Plot.ruleY([0])
+    ]
+}))
 ```
+
+
 
 ## Raw data
 

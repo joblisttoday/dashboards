@@ -1,16 +1,40 @@
 import * as Plot from "npm:@observablehq/plot";
 
-export function timeline(events, {width, height} = {}) {
-  return Plot.plot({
-    width,
-    height,
-    marginTop: 30,
-    x: {nice: true, label: null, tickFormat: ""},
-    y: {axis: null},
-    marks: [
-      Plot.ruleX(events, {x: "year", y: "y", markerEnd: "dot", strokeWidth: 2.5}),
-      Plot.ruleY([0]),
-      Plot.text(events, {x: "year", y: "y", text: "name", lineAnchor: "bottom", dy: -10, lineWidth: 10, fontSize: 12})
-    ]
-  });
+/* Plot graph of data published over time */
+export default function timeline(data, config) {
+	const {
+		x = "date",
+		y = "total",
+		z = "z",
+		text = null,
+		width = 600,
+		height = 400,
+	} = config;
+	return Plot.plot({
+		width,
+		height,
+		grid: true,
+		x: {
+			label: "Job published date",
+		},
+		y: {
+			label: "Number of jobs published",
+		},
+		marks: [
+			Plot.line(data, {
+				x,
+				y,
+				marker: true,
+			}),
+			Plot.text(data, {
+				x,
+				y,
+				z,
+				text,
+				dx: -10,
+				dy: -30,
+				ticks: 10,
+			}),
+		],
+	});
 }

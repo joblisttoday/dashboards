@@ -4,33 +4,64 @@ title: Jobs over time
 toc: false
 ---
 
-Load data
 ```js
-import {timelineJobs} from "./components/timeline-jobs.js";
-
+import timeline from "./components/timeline.js";
+import heatmap from "./components/heatmap.js";
 const db = await SQLiteDatabaseClient.open("https://joblist.gitlab.io/workers/joblist.db");
 ```
-
-Transform data
-```js
-const dbDate = await db.query(`select DATE('now','-1 year');`)
-console.log("dbDate", dbDate);
-
-// Const to get the total nb of jobs published per day
-const jobsOvertime = await db.query(`SELECT published_date, COUNT(*) AS nb_job_published FROM jobs WHERE published_date > DATE('now', '-1 year')  GROUP BY 1;`);
-const jobsSerialize = jobsOvertime.map((job) => {
-  return {
-    published_date: new Date(job.published_date),
-    nb_job_published: Number(job.nb_job_published),
-  }
-})
-view(jobsSerialize)
-```
-
 # Jobs over time
 
+Evolution of daily job postings over time, all jobs from all companies globally.
+
 ```js
-resize((width) => timelineJobs(jobsSerialize, {width, height: 400}))
+const jobs = await db.query("SELECT * FROM jobs;")
+const jobsPerDayQuery = `
+SELECT
+    published_date AS date,
+    strftime('%Y', published_date) AS year,
+    strftime('%m', published_date) AS month,
+    strftime('%d', published_date) AS day,
+    COUNT(*) AS total
+FROM
+    jobs
+WHERE
+    date > DATE("now", "-10 year")
+GROUP BY
+    date
+ORDER BY
+    date DESC;
+`
+const jobsPerDay = await db.query(jobsPerDayQuery);
+view(jobsPerDay)
 ```
 
+```js
+const oneYearAgo = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
+const inputDateFrom = view(Inputs.date({label: "from", value: oneYearAgo }));
+const inputDateTo = view(Inputs.date({label: "to", value: Date.now()}));
+```
+
+```js
+const dateFrom = new Date(inputDateFrom)
+const dateTo = new Date(inputDateTo)
+const filterByDate = function(item) {
+    const itemDate = new Date(item.date)
+    return  itemDate > dateFrom && itemDate < dateTo
+}
+
+const dateCompaniesJobs = jobsPerDay.filter(filterByDate)
+display(dateCompaniesJobs)
+```
+
+## Timeline
+
+```js
+resize((width) => timeline(dateCompaniesJobs, {width}))
+```
 > The number of jobs posted by days, in the latest version of the database.
+
+## Heatmap
+
+```js
+resize((width) => heatmap(dateCompaniesJobs, {width}))
+```
