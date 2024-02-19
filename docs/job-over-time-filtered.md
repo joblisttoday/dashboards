@@ -4,6 +4,10 @@ title: Jobs over time filtered
 toc: false
 ---
 
+```js
+import tableJobs from "./components/table-jobs.js"
+```
+
 # Jobs filtered
 
 Trying to filter the jobs by companies, and display it over time.
@@ -73,7 +77,6 @@ display(dateCompaniesJobs)
 ```
 
 ## Stack bar by companies
-
 ```js
 resize((width) =>Plot.plot({
     width,
@@ -86,14 +89,7 @@ resize((width) =>Plot.plot({
 }))
 ```
 
-
-
 ## Raw data
-
 ```js
-Inputs.table(dateCompaniesJobs, {
-    format: {
-        company_slug: (x) => html`<a href="https://profiles.joblist.today/companies/${x}">${x}</a>`
-    }
-})
+tableJobs(dateCompaniesJobs)
 ```

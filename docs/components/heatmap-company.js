@@ -1,13 +1,6 @@
 import * as Plot from "npm:@observablehq/plot";
 
-const buildEmptyDates = (data) => {
-	const first = data[0];
-	const last = data[data.length - 1];
-	console.log("first", first, last);
-};
-
-export default function heatmap(data = [], size = {}) {
-	const dataWithEmptyDates = buildEmptyDates(data);
+export default function heatmapCompany(data = [], size = {}) {
 	const { width = 400, height = 300 } = size;
 	return Plot.plot({
 		width,
@@ -18,7 +11,7 @@ export default function heatmap(data = [], size = {}) {
 				Plot.group(
 					{ fill: "max" },
 					{
-						x: (d) => `${d.year} - ${d.month}`,
+						x: (d) => d.month,
 						y: (d) => d.day,
 						fill: "total",
 						inset: 0.5,

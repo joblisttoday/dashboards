@@ -24,8 +24,11 @@ export default {
 		{
 			name: "Components",
 			pages: [
+				{ name: "Table companies", path: "/components/table-companies" },
+				{ name: "Table jobs", path: "/components/table-jobs" },
 				{ name: "Timeline", path: "/components/timeline" },
 				{ name: "Heatmap", path: "/components/heatmap" },
+				{ name: "Heatmap company", path: "/components/heatmap-company" },
 			],
 		},
 	],
