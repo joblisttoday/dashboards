@@ -5,38 +5,53 @@ title: heatmap
 import heatmap from "./heatmap.js";
 const db = await SQLiteDatabaseClient.open("https://joblist.gitlab.io/workers/joblist.db");
 ```
-# Timeline query
-
-Evolution of daily job postings over time, all jobs from all companies globally.
+# Heatmap
 ```js
 const searchParams = new URLSearchParams(window.location.search)
 const days = searchParams.get("days") || 365
 ```
 > Use the `?days=` URL search param to update the sourced data.
 
+Evolution of daily job postings **for all companies** in the last **${days}** days.
+
 ```js
 const jobs = await db.query("SELECT * FROM jobs;")
 const jobsPerDayQuery = `
+WITH RECURSIVE date_range AS (
+  SELECT
+    MIN(published_date) AS min_date,
+    MAX(published_date) AS max_date
+  FROM jobs
+  WHERE published_date > DATE('now', '-' || ? || ' days')
+  UNION ALL
+  SELECT DATE(min_date, '+1 day'), max_date
+  FROM date_range
+  WHERE min_date < max_date
+)
 SELECT
-    published_date AS date,
-    strftime('%Y', published_date) AS year,
-    strftime('%m', published_date) AS month,
-    strftime('%d', published_date) AS day,
-    COUNT(*) AS total
+  date_range.min_date AS date,
+  COALESCE(COUNT(DISTINCT jobs.ObjectId), 0) AS total,
+  strftime('%Y', date_range.min_date) AS year,
+  strftime('%m', date_range.min_date) AS month,
+  strftime('%u', date_range.min_date) AS dow,
+  strftime('%j', date_range.min_date) AS doy,
+  strftime('%W', date_range.min_date) AS woy
 FROM
-    jobs
-WHERE
-    date > DATE("now", "-" || ? || " " || "days")
+  date_range
+LEFT JOIN
+  jobs ON DATE(date_range.min_date) = DATE(jobs.published_date)
 GROUP BY
-    date
+  date_range.min_date
 ORDER BY
-    date DESC;
+  date_range.min_date ASC;
 `
 const jobsPerDay = await db.query(jobsPerDayQuery, [days]);
-view(jobsPerDay)
 ```
-## Heatmap
 
 ```js
 heatmap(jobsPerDay)
+```
+
+```js
+view(jobsPerDay)
 ```

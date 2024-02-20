@@ -2,12 +2,10 @@
 title: Heatmap company
 ---
 ```js
-import heatmapCompany from "./heatmap-company.js";
+import heatmap from "./heatmap.js";
 const db = await SQLiteDatabaseClient.open("https://joblist.gitlab.io/workers/joblist.db");
 ```
 # Heatmap company
-Evolution of daily job postings for **${slug}** in the last ${days} days.
-
 ```js
 const searchParams = new URLSearchParams(window.location.search)
 const slug = searchParams.get("slug") || "spacex"
@@ -15,13 +13,20 @@ const days = searchParams.get("days") || 365
 ```
 > Use the `?slug=` and `?days=` URL search params to update the sourced data.
 
+Evolution of daily job postings for **${slug}** in the last **${days}** days.
+
 ```js
 const companyJobsPerDayQuery = `
 WITH RECURSIVE date_range AS (
-  SELECT MIN(published_date) AS min_date, MAX(published_date) AS max_date FROM jobs
-  WHERE published_date > DATE('now', '-' || ? || ' ' || 'days')
+  SELECT
+    MIN(published_date) AS min_date,
+    MAX(published_date) AS max_date
+  FROM jobs
+  WHERE published_date > DATE('now', '-' || ? || ' days')
   UNION ALL
-  SELECT date(min_date, '+1 day'), max_date FROM date_range WHERE min_date < max_date
+  SELECT date(min_date, '+1 day'), max_date
+  FROM date_range
+  WHERE min_date < max_date
 )
 SELECT
   COALESCE(company_slug, ?) AS company_slug,
@@ -47,7 +52,7 @@ const companyJobsPerDay = await db.query(companyJobsPerDayQuery, [days, slug, sl
 ```
 
 ```js
-heatmapCompany(companyJobsPerDay)
+heatmap(companyJobsPerDay)
 ```
 
 ```js
