@@ -5,12 +5,17 @@ title: Heatmap company
 import heatmapCompany from "./heatmap-company.js";
 const db = await SQLiteDatabaseClient.open("https://joblist.gitlab.io/workers/joblist.db");
 ```
-# Timeline query
+# Heatmap company
+Evolution of daily job postings for **${slug}** in the last ${days} days.
 
 ```js
 const searchParams = new URLSearchParams(window.location.search)
 const slug = searchParams.get("slug") || "spacex"
 const days = searchParams.get("days") || 365
+```
+> Use the `?slug=` and `?days=` URL search params to update the sourced data.
+
+```js
 const companyJobsPerDayQuery = `
 WITH RECURSIVE date_range AS (
   SELECT MIN(published_date) AS min_date, MAX(published_date) AS max_date FROM jobs
@@ -39,13 +44,12 @@ ORDER BY published_date ASC;
 `;
 
 const companyJobsPerDay = await db.query(companyJobsPerDayQuery, [days, slug, slug]);
-view(companyJobsPerDay)
 ```
 
-Evolution of daily job postings for **${slug}**.
-
-## Heatmap
+```js
+heatmapCompany(companyJobsPerDay)
+```
 
 ```js
-resize((width) => heatmapCompany(companyJobsPerDay, {width}))
+view(companyJobsPerDay)
 ```
