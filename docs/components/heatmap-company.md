@@ -10,32 +10,36 @@ const db = await SQLiteDatabaseClient.open("https://joblist.gitlab.io/workers/jo
 ```js
 const searchParams = new URLSearchParams(window.location.search)
 const slug = searchParams.get("slug") || "spacex"
-const days = searchParams.get("days") || 365
+const days = searchParams.get("days") || 31
 const companyJobsPerDayQuery = `
+WITH RECURSIVE date_range AS (
+  SELECT MIN(published_date) AS min_date, MAX(published_date) AS max_date FROM jobs
+  WHERE published_date > DATE('now', '-' || ? || ' ' || 'days')
+  UNION ALL
+  SELECT date(min_date, '+1 day'), max_date FROM date_range WHERE min_date < max_date
+)
 SELECT
-    published_date AS date,
-    strftime('%Y', published_date) AS year,
-    strftime('%m', published_date) AS month,
-    strftime('%d', published_date) AS day,
-    COUNT(*) AS total
+  COALESCE(company_slug, ?) AS company_slug,
+  date_range.min_date AS date,
+  COALESCE(COUNT(DISTINCT ObjectId), 0) AS total,
+  strftime('%Y', date_range.min_date) AS year,
+  strftime('%m', date_range.min_date) AS month,
+  strftime('%d', date_range.min_date) AS day
 FROM
-    jobs
-WHERE
-    date > DATE('now', '-' || ? ||' day')
-AND
-    company_slug = ?
-GROUP BY
-    date
-ORDER BY
-    date DESC;
+  date_range
+LEFT JOIN
+  jobs ON date_range.min_date = jobs.published_date
+AND company_slug = ?
+OR company_slug is null
+GROUP BY 1,2
+ORDER BY published_date ASC;
 `;
 
-const companyJobsPerDay = await db.query(companyJobsPerDayQuery, [days, slug]);
+const companyJobsPerDay = await db.query(companyJobsPerDayQuery, [days, slug, slug]);
 view(companyJobsPerDay)
 ```
 
-Evolution of daily job postings for **
-${slug}**.
+Evolution of daily job postings for **${slug}**.
 
 ## Heatmap
 

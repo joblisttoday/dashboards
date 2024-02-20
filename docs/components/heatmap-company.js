@@ -11,7 +11,7 @@ export default function heatmapCompany(data = [], size = {}) {
 				Plot.group(
 					{ fill: "max" },
 					{
-						x: (d) => d.month,
+						x: (d) => d.month + d.year,
 						y: (d) => d.day,
 						fill: "total",
 						inset: 0.5,

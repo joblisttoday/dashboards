@@ -1,12 +1,12 @@
 import * as Plot from "npm:@observablehq/plot";
 import { resize } from "npm:@observablehq/stdlib";
 
-export default function heatmap(data = [], config = {}) {
-	const { height = 400 } = config;
+export default function heatmap(data = [], { height, ...options } = {}) {
 	return resize((width) => {
 		return Plot.plot({
 			width,
 			height,
+			...options,
 			marks: [
 				Plot.cell(
 					data,
