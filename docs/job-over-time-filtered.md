@@ -1,5 +1,4 @@
 ---
-theme: dashboard
 title: Jobs over time filtered
 toc: false
 ---

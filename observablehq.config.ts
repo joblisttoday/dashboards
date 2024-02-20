@@ -32,7 +32,6 @@ export default {
 			],
 		},
 	],
-
 	// Some additional configuration options and their defaults:
 	// theme: "default", // try "light", "dark", "slate", etc.
 	// header: "", // what to show in the header (HTML)

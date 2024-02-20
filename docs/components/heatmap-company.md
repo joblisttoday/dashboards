@@ -10,7 +10,7 @@ const db = await SQLiteDatabaseClient.open("https://joblist.gitlab.io/workers/jo
 ```js
 const searchParams = new URLSearchParams(window.location.search)
 const slug = searchParams.get("slug") || "spacex"
-const days = searchParams.get("days") || 31
+const days = searchParams.get("days") || 365
 const companyJobsPerDayQuery = `
 WITH RECURSIVE date_range AS (
   SELECT MIN(published_date) AS min_date, MAX(published_date) AS max_date FROM jobs
@@ -24,7 +24,10 @@ SELECT
   COALESCE(COUNT(DISTINCT ObjectId), 0) AS total,
   strftime('%Y', date_range.min_date) AS year,
   strftime('%m', date_range.min_date) AS month,
-  strftime('%d', date_range.min_date) AS day
+  strftime('%u', date_range.min_date) AS dow,
+  strftime('%j', date_range.min_date) AS doy,
+  strftime('%W', date_range.min_date) AS woy,
+  strftime('%s', date_range.min_date) AS sec
 FROM
   date_range
 LEFT JOIN
@@ -45,24 +48,4 @@ Evolution of daily job postings for **${slug}**.
 
 ```js
 resize((width) => heatmapCompany(companyJobsPerDay, {width}))
-```
-
-```js
-Plot.plot({
-  padding: 0,
-  x: {axis: null},
-  y: {tickFormat: Plot.formatWeekday("en", "narrow"), tickSize: 0},
-  fy: {tickFormat: "", reverse: true},
-  color: {scheme: "PiYG", legend: true, label: "Daily change", tickFormat: "+%", domain: [-0.06, 0.06]},
-  marks: [
-    Plot.cell(companyJobsPerDay, {
-      x: (d) => d3.utcWeek.count(d.year, d.date),
-      y: (d) => d.day,
-      fy: (d) => d.year,
-      fill: (d, i) => i > 0 ? (d.total - companyJobsPerDay[i - 1].total) / companyJobsPerDay[i - 1].total : NaN,
-      title: (d, i) => i > 0 ? ((d.total - companyJobsPerDay[i - 1].total) / companyJobsPerDay[i - 1].total * 100).toFixed(1) : NaN,
-      inset: 0.5
-    })
-  ]
-})
 ```
