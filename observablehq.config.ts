@@ -10,8 +10,9 @@ export default {
 		{
 			name: "Introductions",
 			pages: [
-				{ name: "Intro", path: "/intro" },
-				{ name: "Intro Data", path: "/intro-data" },
+				{ name: "Overview", path: "/overview" },
+				{ name: "Tables", path: "/tables" },
+				{ name: "Analytics", path: "/analytics" },
 			],
 		},
 		{
@@ -24,11 +25,11 @@ export default {
 		{
 			name: "Components",
 			pages: [
-				{ name: "Table companies", path: "/components/table-companies" },
-				{ name: "Table jobs", path: "/components/table-jobs" },
 				{ name: "Timeline", path: "/components/timeline" },
 				{ name: "Heatmap", path: "/components/heatmap" },
 				{ name: "Heatmap company", path: "/components/heatmap-company" },
+				{ name: "Table companies", path: "/components/table-companies" },
+				{ name: "Table jobs", path: "/components/table-jobs" },
 			],
 		},
 	],

@@ -5,7 +5,6 @@ toc: false
 
 ```js
 import timeline from "./components/timeline.js";
-import heatmap from "./components/heatmap.js";
 const db = await SQLiteDatabaseClient.open("https://joblist.gitlab.io/workers/joblist.db");
 ```
 # Jobs over time
@@ -58,8 +57,3 @@ display(dateCompaniesJobs)
 timeline(dateCompaniesJobs)
 ```
 > The number of jobs posted by days, in the latest version of the database.
-
-## Heatmap
-```js
-heatmap(dateCompaniesJobs)
-```
