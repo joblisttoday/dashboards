@@ -11,7 +11,8 @@ export default {
 			name: "Introductions",
 			pages: [
 				{ name: "Overview", path: "/overview" },
-				{ name: "Tables", path: "/tables" },
+				{ name: "Companies", path: "/companies" },
+				{ name: "Jobs", path: "/jobs" },
 				{ name: "Analytics", path: "/analytics" },
 			],
 		},
