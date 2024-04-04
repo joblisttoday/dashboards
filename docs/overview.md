@@ -50,7 +50,7 @@ GROUP BY
     companies.slug
 ORDER BY
     total_jobs DESC
-LIMIT 10;
+LIMIT 100;
 `
 const companyWithTop = await db.query(companyWithTopJobsQuery)
 ```
