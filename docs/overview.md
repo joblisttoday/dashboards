@@ -58,7 +58,7 @@ The companies with the highest number of jobs published are:
 ```js
 view(Inputs.table(companyWithTop, {
     format: {
-        slug: (x) => html`<a href="https://profiles.joblist.today/companies/${x}">${x}</a>`
+        slug: (x) => html`<a href="https://joblist.today/${x}">${x}</a>`
     }
 }))
 ```
