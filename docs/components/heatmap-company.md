@@ -8,12 +8,12 @@ const db = await SQLiteDatabaseClient.open("https://joblist.gitlab.io/workers/jo
 # Heatmap company
 ```js
 const searchParams = new URLSearchParams(window.location.search)
-const slug = searchParams.get("slug") || "spacex"
+const id = searchParams.get("id") || "spacex"
 const days = searchParams.get("days") || 365
 ```
-> Use the `?slug=` and `?days=` URL search params to update the sourced data.
+> Use the `?id=` and `?days=` URL search params to update the sourced data.
 
-Evolution of daily job postings for **${slug}** in the last **${days}** days.
+Evolution of daily job postings for **${id}** in the last **${days}** days.
 
 ```js
 const companyJobsPerDayQuery = `
@@ -29,7 +29,7 @@ WITH RECURSIVE date_range AS (
   WHERE min_date < max_date
 )
 SELECT
-  COALESCE(company_slug, ?) AS company_slug,
+  COALESCE(company_id, ?) AS company_id,
   date_range.min_date AS date,
   COALESCE(COUNT(DISTINCT ObjectId), 0) AS total,
   strftime('%Y', date_range.min_date) AS year,
@@ -42,13 +42,13 @@ FROM
   date_range
 LEFT JOIN
   jobs ON date_range.min_date = jobs.published_date
-AND company_slug = ?
-OR company_slug is null
+AND company_id = ?
+OR company_id is null
 GROUP BY 1,2
 ORDER BY published_date ASC;
 `;
 
-const companyJobsPerDay = await db.query(companyJobsPerDayQuery, [days, slug, slug]);
+const companyJobsPerDay = await db.query(companyJobsPerDayQuery, [days, id, id]);
 ```
 
 ```js

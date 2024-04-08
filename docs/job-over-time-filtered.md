@@ -20,14 +20,14 @@ const db = await SQLiteDatabaseClient.open("https://joblist.gitlab.io/workers/jo
 ```js
 const distCompaniesQuery = `
 SELECT DISTINCT
-  company_slug
+  company_id
 FROM jobs
 WHERE published_date > DATE('now', '-1 month')
   AND published_date IS NOT NULL;
 `
 const distCompanies = await db.query(distCompaniesQuery);
-const distCompaniesSlugs = distCompanies.map((item) => {
-		return item.company_slug
+const distCompaniesIds = distCompanies.map((item) => {
+		return item.company_id
 })
 ```
 
@@ -37,12 +37,12 @@ Jobs by companies by date.
 const query = `
 SELECT
   published_date,
-  company_slug,
+  company_id,
   COUNT(DISTINCT objectID) AS total_jobs
 FROM jobs
 WHERE published_date > DATE('now', '-1 month')
   AND published_date IS NOT NULL
-GROUP BY published_date, company_slug;
+GROUP BY published_date, company_id;
 `;
 const companiesJobs = await db.query(query);
 view(companiesJobs)
@@ -50,7 +50,7 @@ view(companiesJobs)
 
 ```js
 const searchOption = {
-  datalist: distCompaniesSlugs
+  datalist: distCompaniesIds
 
 }
 const searchCompaniesJobs = view(Inputs.search(companiesJobs, searchOption))
@@ -82,7 +82,7 @@ resize((width) =>Plot.plot({
     color: {legend: true},
     y: {grid: true},
     marks: [
-        Plot.rectY(dateCompaniesJobs, {x: "published_date", y: "total_jobs",fill: "company_slug"}),
+        Plot.rectY(dateCompaniesJobs, {x: "published_date", y: "total_jobs",fill: "company_id"}),
         Plot.ruleY([0])
     ]
 }))
