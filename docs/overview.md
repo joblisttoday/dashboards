@@ -41,7 +41,7 @@ General statistics about the database of companies and jobs.
 const companyWithTopJobsQuery = `
 SELECT
     companies.id,
-    COUNT(jobs.objectID) AS total_jobs
+    COUNT(jobs.id) AS total_jobs
 FROM
     companies
 INNER JOIN

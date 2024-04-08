@@ -38,7 +38,7 @@ const query = `
 SELECT
   published_date,
   company_id,
-  COUNT(DISTINCT objectID) AS total_jobs
+  COUNT(DISTINCT id) AS total_jobs
 FROM jobs
 WHERE published_date > DATE('now', '-1 month')
   AND published_date IS NOT NULL
