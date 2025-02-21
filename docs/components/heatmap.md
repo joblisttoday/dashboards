@@ -30,7 +30,7 @@ WITH RECURSIVE date_range AS (
 )
 SELECT
   date_range.min_date AS date,
-  COALESCE(COUNT(DISTINCT jobs.ObjectId), 0) AS total,
+  COALESCE(COUNT(DISTINCT jobs.id), 0) AS total,
   strftime('%Y', date_range.min_date) AS year,
   strftime('%m', date_range.min_date) AS month,
   strftime('%u', date_range.min_date) AS dow,
