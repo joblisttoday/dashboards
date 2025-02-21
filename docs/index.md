@@ -13,10 +13,12 @@ help visualize the data available in the joblist ecosystem.
 - [source code](https://gitlab.com/joblist/dashboards) of the observable 2 dashboards
 - [joblist.today](http://joblist.today) for the homepage of this project
 - [edit.joblist.today](http://edit.joblist.today) to edit the data, add a company
-- [providers.joblist.today](http://providers.joblist.today) for the
-  "job board providers" list, that joblist.today can index
-- [archives](https://archive.is/https://dashboards.joblist.today/*)
-  the dashboard pages can be archived with services like archive.org
+- [Boards](https://components.joblist.today/apps/boards) for the "job
+  board providers" list, that joblist.today supports for indexing
+- [joblist.today archives](https://archive.is/https://joblist.today/*)
+  and [joblist.gitlab.io
+  archives](https://archive.is/https://joblist.gitlab.io/*) the
+  dashboard pages can be archived with services like archive.org
   wayback machine (does not seem to work) or
   [archive.today](https://archive.today), allowing to get snapshot of
   the job market's data at any point in time (from joblist's db). To
