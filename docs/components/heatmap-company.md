@@ -3,7 +3,7 @@ title: Heatmap company
 ---
 ```js
 import heatmap from "./heatmap.js";
-const db = await SQLiteDatabaseClient.open("https://joblist.gitlab.io/workers/joblist.db");
+const db = await SQLiteDatabaseClient.open("https://workers.joblist.today/joblist.db");
 ```
 # Heatmap company
 ```js

@@ -3,7 +3,7 @@ import tableJobs from "./table-jobs.js"
 ```
 
 ```js
-const db = await SQLiteDatabaseClient.open("https://joblist.gitlab.io/workers/joblist.db");
+const db = await SQLiteDatabaseClient.open("https://workers.joblist.today/joblist.db");
 const jobs = await db.query(`SELECT * FROM jobs;`);
 ```
 

@@ -1,6 +1,6 @@
 ```js
 import timeline from "./timeline.js";
-const db = await SQLiteDatabaseClient.open("https://joblist.gitlab.io/workers/joblist.db");
+const db = await SQLiteDatabaseClient.open("https://workers.joblist.today/joblist.db");
 ```
 # Query
 

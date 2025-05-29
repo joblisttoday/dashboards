@@ -6,7 +6,7 @@ toc: false
 # Joblist Data introduction
 
 ```js
-const databaseFile = await fetch("https://joblist.gitlab.io/workers/joblist.db");
+const databaseFile = await fetch("https://workers.joblist.today/joblist.db");
 const db = await SQLiteDatabaseClient.open(databaseFile);
 const companies = await db.query(`SELECT * FROM companies;`);
 const jobs = await db.query(`SELECT * FROM jobs;`);

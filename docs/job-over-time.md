@@ -5,7 +5,7 @@ toc: false
 
 ```js
 import timeline from "./components/timeline.js";
-const db = await SQLiteDatabaseClient.open("https://joblist.gitlab.io/workers/joblist.db");
+const db = await SQLiteDatabaseClient.open("https://workers.joblist.today/joblist.db");
 ```
 # Jobs over time
 

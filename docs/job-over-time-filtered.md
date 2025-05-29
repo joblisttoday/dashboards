@@ -14,7 +14,7 @@ Trying to filter the jobs by companies, and display it over time.
 ## Load data
 
 ```js
-const db = await SQLiteDatabaseClient.open("https://joblist.gitlab.io/workers/joblist.db");
+const db = await SQLiteDatabaseClient.open("https://workers.joblist.today/joblist.db");
 ```
 
 ```js

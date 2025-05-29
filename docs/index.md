@@ -31,9 +31,9 @@ help visualize the data available in the joblist ecosystem.
 
 
 ```js
-const db = await SQLiteDatabaseClient.open("https://joblist.gitlab.io/workers/joblist.db");
+const db = await SQLiteDatabaseClient.open("https://workers.joblist.today/joblist.db");
 const dbDate = await db.query(`select DATE('now') AS date;`)
 const {date} = dbDate[0]
 ```
 
-[Sqlite database date](https://joblist.gitlab.io/workers/joblist.db) ([explore raw](https://sqlime.org/#https://joblist.gitlab.io/workers/joblist.db)) ${date}.
+[Sqlite database date](https://workers.joblist.today/joblist.db) ([explore raw](https://sqlime.org/#https://workers.joblist.today/joblist.db)) ${date}.
